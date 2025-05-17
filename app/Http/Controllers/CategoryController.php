@@ -22,9 +22,9 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $data = $request->validated();
-        $product = Category::create($data);
-        
-        return response()->json($product, 201);
+        $category = Category::create($data);
+
+        return response()->json($category, 201);
     }
 
     /**
@@ -32,7 +32,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return $category;
     }
 
     /**
@@ -40,7 +40,11 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $data = $request->validated();
+
+        $category->update($data);
+        
+        return response()->json($category, 201);
     }
 
     /**
@@ -48,6 +52,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return [
+            "message" => "La categoria ha sido eliminada"
+        ];
     }
 }
