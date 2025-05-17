@@ -21,7 +21,10 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $data = $request->validated();
+        $product = Category::create($data);
+        
+        return response()->json($product, 201);
     }
 
     /**
