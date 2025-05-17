@@ -13,7 +13,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        Product::all();
+        return Product::all();
     }
 
     /**
@@ -21,7 +21,10 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $data = $request->validated();
+        $product = Product::create($data);
+
+        return response()->json($product, 201);
     }
 
     /**
@@ -29,7 +32,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return $product;
     }
 
     /**
@@ -37,7 +40,11 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $data = $request->validated();
+
+        $product->update($data);
+
+        return response()->json($product, 201);
     }
 
     /**
@@ -45,6 +52,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return [
+            "message" => "El producto ha sido eliminado"
+        ];
     }
 }
