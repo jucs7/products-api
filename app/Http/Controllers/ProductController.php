@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
+
+    public function __construct(protected ProductService $service) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Product::all();
+        return response()->json($this->service->list());
     }
 
     /**
@@ -21,9 +25,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $data = $request->validated();
-        $product = Product::create($data);
-
+        $product = $this->service->create($request->validated());
         return response()->json($product, 201);
     }
 
@@ -32,7 +34,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return $product;
+        return response()->json($this->service->find($product->id));
     }
 
     /**
@@ -40,10 +42,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $data = $request->validated();
-
-        $product->update($data);
-
+        $product = $this->service->update($product, $request->validated());
         return response()->json($product, 201);
     }
 
@@ -52,10 +51,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product->delete();
-
-        return [
-            "message" => "El producto ha sido eliminado"
-        ];
+        $this->service->delete($product);
+        return response()->json(['message' => 'El producto ha sido eliminado'], 200);
     }
 }

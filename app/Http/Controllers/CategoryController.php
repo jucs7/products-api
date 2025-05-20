@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Services\CategoryService;
 
 class CategoryController extends Controller
 {
+
+    public function __construct(protected CategoryService $service) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Category::all();
+        return response()->json($this->service->list());
     }
 
     /**
@@ -21,9 +25,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $data = $request->validated();
-        $category = Category::create($data);
-
+        $category = $this->service->create($request->validated());
         return response()->json($category, 201);
     }
 
@@ -32,18 +34,15 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return $category;
+        return response()->json($this->service->find($category->id));
     }
-
+    
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $data = $request->validated();
-
-        $category->update($data);
-        
+        $category = $this->service->update($category, $request->validated());
         return response()->json($category, 201);
     }
 
@@ -52,10 +51,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-
-        return [
-            "message" => "La categoria ha sido eliminada"
-        ];
+        $this->service->delete($category);
+        return response()->json(['message' => 'La caregoria ha sido eliminada.'], 200);
     }
 }
