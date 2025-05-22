@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class RegisterRequest extends FormRequest
 {
@@ -26,11 +25,8 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
+            'role' => 'in:admin,user',
         ];
-
-        if (Auth::check() && Auth::user()->isAdmin()) {
-            $rules['role'] = 'in:admin,user';
-        }
 
         return $rules;
     }

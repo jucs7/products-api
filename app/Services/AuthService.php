@@ -13,8 +13,10 @@ class AuthService
     public function __construct(protected UserRepository $userRepository) {}
 
     public function register(array $data): User
-    {
-        if (!Auth::check()) {
+    {   
+        $current = Auth::guard('sanctum')->user();
+
+        if (!$current || !$current->isAdmin()) {
             $data['role'] = 'user';
         }
 
