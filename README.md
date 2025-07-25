@@ -1,4 +1,4 @@
-# Prueba Técnica: Desarrollador PHP Backend
+# API REST Laravel 12
 
 # 1. Instrucciones para configurar localmente.
 
@@ -100,8 +100,7 @@
 
 2.2. **Configura el entorno:**
 
-   - En caso de usar la API en entorno local asegúrate de que la variable `url` apunte a `http://0.0.0.0:80` o `http://localhost` según tu configuración.
-   - En caso de usar la API en entorno de producción asegúrate de que la variable `url` apunte a la URL pública `http://ec2-18-222-40-128.us-east-2.compute.amazonaws.com/php-test-25014`.
+   En caso de usar la API en entorno local asegúrate de que la variable `url` apunte a `http://0.0.0.0:80` o `http://localhost` según tu configuración.
 
 2.3. **Usa la colección:**
 
@@ -109,11 +108,7 @@
    - Ejecuta las peticiones según lo necesites.
    - Si alguna petición requiere autenticación, loguéate como administrador y apunta la variable `token-bearer` al token generado.
 
-# 3. URL pública de despliegue.
-
-[http://ec2-18-222-40-128.us-east-2.compute.amazonaws.com/php-test-25014](http://ec2-18-222-40-128.us-east-2.compute.amazonaws.com/php-test-25014)
-
-# 4. Decisiones de diseño
+# 3. Decisiones de diseño
 
 ## Elección de enum vs tabla de roles
 
